@@ -1,6 +1,6 @@
 import React from 'react';
-import FormGroup from "./components_utils/FormGroup";
-import Navbar from "./Navbar";
+import FormGroup from "../components_utils/FormGroup";
+import Navbar from "../components_utils/Navbar";
 import { Validation } from "../helper/helper.js";
 import { browserHistory } from "react-router";
 const $ = require("jquery");

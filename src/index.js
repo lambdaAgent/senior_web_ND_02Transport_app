@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Login from './PAGES/Login';
-import Home from './PAGES/Home';
-import StationDetail from "./PAGES/StationDetail";
-import NoMatch from "./PAGES/NoMatch"
+import Login from './component_pages/Login.js';
+import Home from './component_pages/Home';
+import StationDetail from "./component_pages/StationDetail";
+import SelectStation from "./component_pages/SelectStation";
+import NoMatch from "./component_pages/NoMatch"
 import './index.css';
 import { Router, Route, browserHistory } from 'react-router'
 
 ReactDOM.render(
-   <Router history={browserHistory}>
+   <Router history={browserHistory} >
 	    <Route path="/" component={Home}/>
+   	    <Route path="/selectStation" component={SelectStation}/>    
 	    <Route path="/station/:stationId" component={StationDetail}/>    
 	   	<Route path="signup" component={Login}/>
 		<Route path="*" component={NoMatch}/>

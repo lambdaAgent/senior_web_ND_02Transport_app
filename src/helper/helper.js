@@ -41,6 +41,35 @@ const Validation = {
     }
 }
 
+const Query = {
+
+  convertQueryToObject(url){
+      var queries = url.split("?")[1];
+      var result = {}
+      queries.split("&").map(q => {
+          var key_value = q.split("=");
+          result[key_value[0]] = key_value[1];
+      });
+      return result;
+  },
+
+  convertObjectToURL(obj){
+      var url = window.location.href;
+      var urlWithNoQuery = url.split("?")[0];
+      return urlWithNoQuery + this.convertObjectToQuery(obj)
+  },
+  convertObjectToQuery(obj){
+      var url = window.location.href;
+      var query = "?"
+      for (var key in obj){
+          var value = obj.key;
+          query += key + "=" +"value" + "&"
+      }
+      //take off the last &amp; from url
+      return query.substring(0, query.length-1)
+  }
+}
+
 module.exports = {
-  Validation
+  Validation, Query
 }
