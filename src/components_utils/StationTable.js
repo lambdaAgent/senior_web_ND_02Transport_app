@@ -1,32 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router';
-import Navbar from "./Navbar";
-import StationList from "../stations/stations.js";
+import React from "react"
 const $ = require("jquery");
-import {browserHistory} from 'react-router';
-
-class Content extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            stations: StationList.getAll(),
-            showStations: true
-        }
-    }
-    render() {
-        const self = this;
-        return(
-            <div>
-                <Navbar />
-            	<div className="container">
-                    <StationTable stations={this.state.stations} 
-                                  show={this.state.showStations}/>
-                </div>
-            </div>
-        )
-    }
-}
-
+import {browserHistory, Link} from 'react-router';
 
 const StationTable = (props) => {
     const stations = props.stations || []
@@ -47,7 +21,7 @@ const StationTable = (props) => {
                 </tr> 
             </thead> 
             <tbody>
-                <List />
+                {loop}
             </tbody>
         </table>
         </div>
@@ -61,8 +35,8 @@ const List = (props) => (
     //props.type
     //props.author
     <tr className="">       
-        <td onClick={props.click}>{props.name} <b> San Francisco Station</b></td> 
-        <td onClick={props.click}>{props.zone} 1</td> 
+        <td onClick={props.click}><b> {props.name}</b></td> 
+        <td onClick={props.click}>{props.zone}</td> 
         <td onClick={props.click}> 12:00 AM </td> 
         <td onClick={props.click}> 12:00 AM </td> 
         <th id="noHover" 
@@ -73,8 +47,4 @@ const List = (props) => (
     </tr> 
 )
 
-
-
-export default Content;
-
-
+module.exports = StationTable

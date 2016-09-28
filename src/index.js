@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Login from './components/Login';
-import Home from './components/Home';
-import StationDetail from "./components/StationDetail";
-import NoMatch from "./components/NoMatch"
+import Login from './PAGES/Login';
+import Home from './PAGES/Home';
+import StationDetail from "./PAGES/StationDetail";
+import NoMatch from "./PAGES/NoMatch"
 import './index.css';
 import { Router, Route, browserHistory } from 'react-router'
 

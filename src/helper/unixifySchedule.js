@@ -1,9 +1,41 @@
-var moment = require("moment");
+const moment = require("moment");
+const time = moment().format("YYYY-MM-DD");
+const todayAt00 = String(time + "T00:00:00")
 
-var schedule = "5:54, 6:29, 7:44, 8:44, 9:44, 10:43, 11:43, 12:37, 1:37, 2:37, 3:43, 4:32, 4:58, 5:25, 5:21, 5:35, 6:00, 5:43, 6:25, 6:21, 6:35, 7:00, 6:43, 7:25, 7:21, 7:35, 7:55, 8:14, 8:57, 9:57, 10:57, 11:57, 12:06 "
+function convertUnixToTime(arr){
+	return arr.map(time => moment(time).format("h:mm a"))
+}
 
-var time = moment().format("YYYY-MM-DD");
-var todayAt00 = String(time + "T00:00:00")
+function convertScheduleToUnix(arr){ 
+	return convertArrToUnix(
+		adjustSchedule(arr)
+	)
+}
+
+function findNextFromUnixSchedule(UnixSchedule){
+	var time = moment().valueOf();
+	var nextTrain = UnixSchedule.filter(sc => time < sc)[0]
+	return moment(nextTrain).format("h:mm a");
+}
+
+
+
+module.exports = {
+	convertUnixToTime, 
+	convertScheduleToUnix, 
+	findNextFromUnixSchedule
+}
+
+
+
+
+
+
+
+// -------------
+//    HELPER
+// -------------
+
 
 String.prototype.trim = function() 
 {
@@ -15,7 +47,6 @@ function convertTimeToSeconds(str){
 	var hour = str.split(":")[0];
 	var min = str.split(":")[1];
 	var seconds = hour * 60 + min;
-	console.log("seconds", seconds)
 	return seconds
 }
 
@@ -81,16 +112,3 @@ function test(arr){
 	return result
 }
 
-function convertUnixToTime(arr){
-	return arr.map(time => moment(time).format("h:mm a"))
-}
-
-const convertScheduleToUnix = (arr) => { 
-	return convertArrToUnix(
-		adjustSchedule(arr)
-	)
-}
-
-module.exports = {
-	convertUnixToTime, convertScheduleToUnix
-}

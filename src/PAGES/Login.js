@@ -1,5 +1,5 @@
 import React from 'react';
-import FormGroup from "./FormGroup";
+import FormGroup from "./components_utils/FormGroup";
 import Navbar from "./Navbar";
 import { Validation } from "../helper/helper.js";
 import { browserHistory } from "react-router";

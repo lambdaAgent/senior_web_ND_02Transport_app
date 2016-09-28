@@ -42,7 +42,6 @@ class Navbar extends React.Component {
                                 <div className="navbar-header">
                                     <Link to="/" className="navbar-brand">Train Planner</Link>
                                     <ul className="nav navbar-nav">
-                                        <li id="transitMap-hamburger"><Link to="/checkTrain">Check-Train</Link></li>
                                         <li id="detail-hamburger"><Link to="/station/001">Station-details</Link></li>
                                     </ul>
                                 </div> 
@@ -81,7 +80,6 @@ const CollapsedMenu = (props) => (
          style={Object.assign({}, {marginTop: 0})}>
       <ul className="nav navbar-nav">
         <li id="Signup-hamburger"><Link to="/signup">Signup</Link></li>
-        <li id="transitMap-hamburger"><Link to="/checkTrain">Check-Train</Link></li>
         <li id="detail-hamburger"><Link to="/station/001">Station-details</Link></li>
       </ul>
     </div>    
