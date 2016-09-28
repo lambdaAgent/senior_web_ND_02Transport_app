@@ -1,8 +1,10 @@
 import React from "react"
 const $ = require("jquery");
-import {browserHistory, Link} from 'react-router';
+import { Link} from 'react-router';
 
 const StationTable = (props) => {
+    //props.onCellClick
+    //props.stations
     const stations = props.stations || []
     const loop = stations.map( s => (
                 <Cell key={s.id} id={s.id} name={s.name} zone={s.zone} 
@@ -16,7 +18,11 @@ const StationTable = (props) => {
         <table className="table">
             <thead>
                 <tr>
-                    <th>Station Name</th><th>Zone</th><th>SouthB NextTrain</th><th>NorthB NextTrain</th><th>Details</th>
+                    <th>Station Name</th>
+                    <th>Zone</th>
+                    <th>SouthB NextTrain</th>
+                    <th>NorthB NextTrain</th>
+                    <th>Details</th>
                 </tr> 
             </thead> 
             <tbody>
@@ -34,10 +40,10 @@ const Cell = (props) => (
     //props.type
     //props.author
     <tr className="event">       
-        <td onClick={() => props.click(props.id) }><b> {props.name}</b></td> 
-        <td onClick={() => props.click(props.id) }>{props.zone}</td> 
-        <td onClick={() => props.click(props.id) }> 12:00 AM </td> 
-        <td onClick={() => props.click(props.id) }> 12:00 AM </td> 
+        <td onClick={() => props.click(props.id,props.name) }><b> {props.name}</b></td> 
+        <td onClick={() => props.click(props.id,props.name) }>{props.zone}</td> 
+        <td onClick={() => props.click(props.id,props.name) }> 12:00 AM </td> 
+        <td onClick={() => props.click(props.id,props.name) }> 12:00 AM </td> 
         <th id="noHover" 
             onMouseOver={props.mouseOver} 
             onMouseLeave={props.mouseLeave}>

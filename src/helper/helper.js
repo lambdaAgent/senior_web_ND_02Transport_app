@@ -59,17 +59,45 @@ const Query = {
       return urlWithNoQuery + this.convertObjectToQuery(obj)
   },
   convertObjectToQuery(obj){
-      var url = window.location.href;
       var query = "?"
-      for (var key in obj){
-          var value = obj.key;
-          query += key + "=" +"value" + "&"
+      for (var key in obj) {
+          var value = obj[key];
+          query += key + "=" + value + "&"
       }
       //take off the last &amp; from url
       return query.substring(0, query.length-1)
   }
 }
+const Cookie = {
+
+  convertCookieToObject(cookie){
+      var result = {}
+      cookie.split("; ").map(q => {
+          var key_value = q.split("=");
+          result[key_value[0]] = key_value[1];
+      });
+      return result;
+  },
+
+  convertObjectToCookie(obj){
+      var result = ""
+      for (var key in obj){
+          var value = obj[key];
+          result += key + "=" + value + "; "
+      }
+      //take off the last ;<space> from url
+      return result.substring(0, result.length-2)
+  },
+  addOrPutToCookie(cookie, obj){
+    var _cookie = this.convertCookieToObject(cookie);
+    for (var key in obj){
+        _cookie[key] = obj[key]
+    }
+
+    return this.convertObjectToCookie(_cookie)
+  }
+}
 
 module.exports = {
-  Validation, Query
+  Validation, Query, Cookie
 }

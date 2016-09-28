@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Navbar from "../components_utils/Navbar";
-import StationList from "../stations/stations.js";
-import StationTable from "../components_utils/StationTable";
-import { Query } from "../helper/helper.js"
+import { Cookie } from "../helper/helper.js"
 const $ = require("jquery");
-import {browserHistory} from 'react-router';
+// import {browserHistory} from 'react-router';
 
 class Content extends React.Component {
     constructor(props) {
@@ -13,23 +11,12 @@ class Content extends React.Component {
         this.state = {
             departSelected: "",
             arriveSelected: "",
-            query: undefined
         }
     }
     componentDidMount() {
-        var url = window.location.href;
-
-        if(url.indexOf("?")){
-            //if url has query, convert query to Object
-            var query = Query.convertQueryToObject(url);
-            if ("departure" in query) 
-                this.setState({departSelected: query.departure}) 
-            else if("arrival" in query) 
-                this.setState({arriveSelected: query.arrival})                                 
-
-            this.setState({query: Query.convertObjectToQuery(query) })
-        }
-
+        var cookieObj = Cookie.convertCookieToObject(document.cookie);
+        console.log("cookieObj", cookieObj)
+        this.setState({departSelected: cookieObj.depart, arriveSelected: cookieObj.arrive})
     }
     render() {
         console.log(this.state)
@@ -37,10 +24,10 @@ class Content extends React.Component {
             <div>
                 <Navbar />
             	<div className="container">
-                    <div style={{display: !this.state.showStationTable ? "inherit" : "none"}}>
+                    <div style={{display: !this.state.showStationTable ? "inherit" : "none", maxWidth: "700px", margin: "0 auto"}}>
                        <BookButton 
-                            label={"Depart"} 
-                            queryString={this.state.query}
+                            label={"Departure"} 
+                            selected={this.state.departSelected}
                             />
                     </div>
                 </div>
@@ -50,12 +37,15 @@ class Content extends React.Component {
 }
 
 const BookButton = (props) => {
-    var queryString = props.queryString || ""
+    var selected = function(){
+        return <div><span style={{fontSize: "15px"}}>{props.label}</span> {": " + props.selected}</div>
+    }
     return (
          <Link className="btn btn-primary btn-lg btn-block"
-            to={"/selectStation" + queryString }
+            style={{height: "70px", fontSize: "1.5em", lineHeight: "45px", letterSpacing: "3px"}}
+            to={"/selectStation?" + props.label }
             >
-            {props.label}        
+            { props.selected ? selected() : props.label }
         </Link>
     )
 }
