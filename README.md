@@ -1,20 +1,19 @@
 # Project02 - Transport-Planner App
 
 ### RUN:
-1. cd build 
-2. python -m simpleHTTPServer <port>
+1. clone
+2. npm install
+3. To run client: 
+   * cd build
+   * python -m simpleHTTPServer <port>
+4. Client app does not have initial data of each stations. It will fetch from local-server
+5. to run server: 
+   * node ./Server/SERVER.js
 
 ### Notes for build files:
-1. final working files are in build directory, everything else are for development files 
-2. needs localserver for react-router
-3. library used: react-create-app, react-router
-4. password: 
-  * at least 8 characters
-  * must include at least one Capital Letter
-5. From project rubrics: "You do not need to create a real back-end or save user information, but the app must provide a form for users to create an account." <br/> 
-   So,  I decide not to use any authentication, nor saving the new user account <br/>
-**Signup form will route to "/" (homepage), after the user submit the form and pass all validation**
-6. directory for build:
+1. library used: react-create-app, react-router
+2. All Components in Jsx are compiled into build directory
+3. directory for build:
    * /build
      * /static
        * /css
@@ -26,21 +25,19 @@
 
 ### Notes for development files :
 1. I use <a href="https://facebook.github.io/react/blog/2016/07/22/create-apps-with-no-configuration.html">react-create-app</a> as a build tool, it uses webpack in background with very minimum configuration
-2. clone the repo, 
-3. `$ npm install `  &nbsp;    *install dependencies*
-4. `$ npm start `  &nbsp;  *to run in development mode*
-5. there is only one **build** directory for production mode, **everything else are for development mode**
-6. directory: 
-   * /build        &nbsp;&nbsp; &nbsp;&nbsp;# build directory for production only, **everything else are for development mode**
-   * index.html    &nbsp;&nbsp; # main html 
+2. there is only one **build** directory and server directory for production mode, **everything else are for development mode**
+3. directory: 
+   * /Server  &nbsp;&nbsp; # server files to serve stations_data in json format 
+   * /build    &nbsp;&nbsp; &nbsp;&nbsp;# build directory for production only, 
+   * -- **every files below are for development mode** --
+   * /public   &nbsp;&nbsp; # main html and static assets
    * package.json
    * /node_modules
    * /src
-     * /components &nbsp;&nbsp; # individual components
-     * /helper
-       * helper.js &nbsp;&nbsp; # helper functions
-     * /events
-       * eventList.js &nbsp;&nbsp; # pre-coded events database
+     * /components_pages  &nbsp;&nbsp; # each pages: home.html, showStations.html
+     * /components_utils  &nbsp;&nbsp; # components that are common among pages
+     * /helper   &nbsp;&nbsp; # helper functions
+     * /stations  &nbsp;&nbsp; # simple mem-cache functions
      * favicon.ico
      * index.css
      * index.js &nbsp;&nbsp;  # app main entry

@@ -1,5 +1,6 @@
 import Stations from "../stations/stations.js"
 
+
 const FetchAPI = {
   _fetchInterval: undefined,
   fetchStationsFromServer(React){

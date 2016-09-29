@@ -32,7 +32,9 @@ app.get("/", (req, res, next) => {
 });
 
 app.get('/getAllStationsFromServer', function(req, res, next) {
-    console.log("request accepted")
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
     var stations = require("./STATIONS.js").getAllStation();
     res.json(stations);
 });
