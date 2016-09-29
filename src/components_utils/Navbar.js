@@ -17,9 +17,6 @@ class Navbar extends React.Component {
         window.addEventListener("resize", this.updateDimensions.bind(this));  
         this.updateDimensions.call(this);
     }
-    componentWillUnmount() {
-        console.log("UNMOUNT NAVBAR")     
-    }
     render() {
         const self = this;
         var showBackButton = checkBookQueryUrl(currentUrl) ? true: false

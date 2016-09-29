@@ -24,7 +24,6 @@ const propTypes = {
 }
 
 const Card = (props) => {
-	console.log("image", props.image)
 	const zoneColor = {backgroundColor: zone_color[props.zone]}
 	const extras__arr = props.extras || [];
 	const extras = extras__arr.map( (e,index) => <Lists key={index} name={e.name} content={e.content}/>)

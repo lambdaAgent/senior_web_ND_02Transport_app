@@ -17,6 +17,7 @@ this.addEventListener("install", event => {
 				"/static/media/glyphicons-halflings-regular.e18bbf61.ttf",
 				"/static/media/glyphicons-halflings-regular.f4769f9b.eot",
 				"/static/media/glyphicons-halflings-regular.fa277232.woff",
+				
 				// ---- images -------
 				"/images/Access-Car.gif",
 				"/images/Bike-car.gif",
