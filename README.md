@@ -5,7 +5,7 @@
 2. npm install
 3. To run client: 
    * cd build
-   * python -m simpleHTTPServer <port>
+   * python -m simpleHTTPServer *<port>*
 4. Client app does not have initial data of each stations. It will fetch from local-server
 5. to run server: 
    * node ./Server/SERVER.js
