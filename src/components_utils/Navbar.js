@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 const $ = require("jquery");
 
+var currentUrl=""
 class Navbar extends React.Component {
     constructor(props) {
         super(props);
@@ -10,8 +11,8 @@ class Navbar extends React.Component {
     }
     updateDimensions(){
         var screenWidth = window.innerWidth;
-        var currentUrl = window.location.href
-        this.setState({width: screenWidth, url: currentUrl})
+        currentUrl = window.location.href
+        this.setState({width: screenWidth})
     }
     componentDidMount() {
         window.addEventListener("resize", this.updateDimensions.bind(this));  
@@ -19,7 +20,7 @@ class Navbar extends React.Component {
     }
     render() {
         const self = this;
-        var showBackButton = checkBookQueryUrl(this.state.url) ? true: false
+        var showBackButton = checkBookQueryUrl(currentUrl) ? true: false
         return(
         	<nav className="navbar navbar-inverse navbar-fixed-top">
 				{ (!showBackButton) /*cannot use if, use ternary instead*/

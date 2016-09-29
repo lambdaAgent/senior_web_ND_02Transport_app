@@ -14,7 +14,14 @@ function convertScheduleToUnix(arr){
 
 function findNextFromUnixSchedule(UnixSchedule){
 	var time = moment().valueOf();
-	var nextTrain = UnixSchedule.filter(sc => time < sc)[0]
+	//maybe .filter() does not guarantee order execution
+	var nextTrain;
+	for (var i=0; i < UnixSchedule.length; i++){
+		if(time < UnixSchedule[i]){
+			nextTrain = UnixSchedule[i]
+			break;
+		}
+	}
 	return moment(nextTrain).format("h:mm a");
 }
 
@@ -25,12 +32,6 @@ module.exports = {
 	convertScheduleToUnix, 
 	findNextFromUnixSchedule
 }
-
-
-
-
-
-
 
 // -------------
 //    HELPER
@@ -61,14 +62,13 @@ function adjustSchedule(schedule){
 	var result = [];
 	var idx = [];
 	arr.map( (time,index) => {
-		if(time.indexOf("12") > -1){
+		if(time.indexOf("12") === 0){
 			idx.push(index+1)
 		}
 	});
 	var AM = arr.slice(0, idx[0])
 	var PM = arr.slice(idx[0])
 	var test = AM.concat(PM)
-	console.log(test)
 	var currentDate = moment().format("YYYY-MM-DD")
 	var AM = arr.slice(0,idx[0]).map((time)=>{
 		if (lessThan10(time)){

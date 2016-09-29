@@ -1,4 +1,31 @@
+import Stations from "../stations/stations.js"
 
+const FetchAPI = {
+  _fetchInterval: undefined,
+  fetchStationsFromServer(React){
+      fetch("http://localhost:8888/getAllStationsFromServer")
+      .then(res => res.json())
+      .then(stations => {
+        Stations.replace(stations);
+        if(React) React.setState({stations: Stations.getAll() })
+      })
+      .catch(err => {
+        var cacheStations = Stations.getAll();
+        if(cacheStations) Stations.replace(cacheStations);
+        if(React) React.setState({stations: Stations.getAll() })
+        this.stopFetching();
+      })
+  },
+  fetchStationsInterval(React){
+    this._fetchInterval = setInterval( () => {
+      this.fetchStationsFromServer(React)
+    },3000)
+  },
+  stopFetching(){
+    clearInterval(this._fetchInterval)
+  }
+  
+}
 const Validation = {
     validateRequired($, e, array, formname){
       e.preventDefault();
@@ -99,5 +126,5 @@ const Cookie = {
 }
 
 module.exports = {
-  Validation, Query, Cookie
+  Validation, Query, Cookie, FetchAPI
 }

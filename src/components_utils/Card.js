@@ -8,61 +8,76 @@ const zone_color = {
 	3:"#e74c3c",
 	4:"#f39c12",
 	5:"#d35400",
-	6:"#8e44ad",
-
+	6:"#8e44ad"
+}
+const propTypes = {
+ 	title: React.PropTypes.string.isRequired,
+ 	subtitle: React.PropTypes.string,
+ 	zone: React.PropTypes.number.isRequired,
+ 	image: React.PropTypes.string.isRequired,
+ 	nextSouthBound: React.PropTypes.string,
+ 	nextNorthBound: React.PropTypes.string,
+ 	extras: React.PropTypes.array.isRequired,
+ 	bicycle: React.PropTypes.bool,
+ 	wheelchair: React.PropTypes.bool,
+ 	luggage: React.PropTypes.bool
 }
 
-class Card extends React.Component {
-    constructor(props) {
-        super(props);
-        this.displayName = 'Card';
-    }
-    render() {
-    	const props = this.props;
-    	console.log(zone_color[props.zone])
-    	const zoneColor = {backgroundColor: zone_color[props.zone]}
-    	const extras__arr = props.extras || [];
-    	const extras = extras__arr.map( (e,index) => <Lists key={index} name={e.name} content={e.content}/>)
-    	return (
-        	<div className="card" style={ Object.assign({}, props.style, defaultStyle)}>
-			  
-			  <div className="card-block" style={Object.assign({}, cardBlockstyle, zoneColor)}>
-			    <h2 className="card-title pull-right" style={{color: "white",  padding: 0, margin: 0}}>{props.zone}</h2>
-			    <h2 className="card-title" style={{color: "white",  padding: 0, margin: 0}}>{props.title}</h2>
-			    <h6 className="card-subtitle text-muted" style={{ padding: 0, margin: 0}}>{props.subtitle}</h6>
-			  </div>
+const Card = (props) => {
+	const zoneColor = {backgroundColor: zone_color[props.zone]}
+	const extras__arr = props.extras || [];
+	const extras = extras__arr.map( (e,index) => <Lists key={index} name={e.name} content={e.content}/>)
+	return (
+    	<div className="card" style={ Object.assign({}, props.style, defaultStyle)}>
+		  
+		  <div className="card-block" style={Object.assign({}, cardBlockstyle, zoneColor)}>
+		    <h2 className="card-title pull-right" style={{color: "white",  padding: 0, margin: 0}}>{props.zone}</h2>
+		    <h2 className="card-title" style={{color: "white",  padding: 0, margin: 0}}>{props.title}</h2>
+		    <h6 className="card-subtitle text-muted" style={{ padding: 0, margin: 0}}>{props.subtitle}</h6>
+		  </div>
 
-			  <img className="card-img-top" src={props.image} alt="Card image cap" width="100%"/>
-			  <div className="card-block" style={{padding: "0 10px", margin:"20px auto"}}>
-			    <h4 className="card-title">Next Train:  <span style={nextTrainStyle}>2:51 AM</span> </h4>
-			    {/*<p className="card-text">Some quick example text to build on the card title and make up the bulk of the cards content.</p> */}
-			  </div>
+		  <img className="card-img-top" src={props.image} alt="Card image cap" width="100%"/>
+		  <div className="card-block" style={{padding: "0 10px", margin:"20px auto"}}>
+		    {(props.nextSouthBound) ? /*if props.nextSouthBound, show below*/
+			    <h4 className="card-title">
+			        Next SouthBound Train:  <span style={nextTrainStyle}>{props.nextSouthBound}</span>
+			    </h4> 
+			    : ""
+		    }
+		    { (props.nextNorthBound) ? /*if props.NorthBound, show below*/
+			    <h4 className="card-title" style={{marginTop: 20}}>
+			    	Next NorthBound Train:  <span style={nextTrainStyle}>{props.nextNorthBound}</span>
+			    </h4> 
+			    : ""
+			}
+		  </div>
 
-			  <hr />
-			  
-			  {/* Amneties */}
-			  <div className="card" style={{padding: "0 10px"}}>
-			    <h6>Amneities: </h6>
-			    <div style={{maxWidth: "320px",margin: "20px auto"}}>
-				  	<img className="img-rounded" src="/images/Bike-car.gif" alt="bicycle park"/>
-				  	<span style={{width: "2%"}}>&nbsp;&nbsp;</span>
-				  	<img className="img-rounded" src="/images/Luggage-Car.gif" alt="luggage "/>
-				  	<span style={{width: "2%"}}>&nbsp;&nbsp;</span>
-				  	<img className="img-rounded" src="/images/Access-Car.gif" alt="Wheelchair accessible"/>
-				</div> 
-			  </div>
+		  <hr />
+		  
+		  {/* Amneties */}
+		  <div className="card" style={{padding: "0 10px"}}>
+		    <h6>Amneities: </h6>
+		    <div style={{maxWidth: "320px",margin: "20px auto"}}>
 
-			  {extras}
-			  
+			{(props.bicycle) ?   <img className="img-rounded" src="/images/Bike-car.gif" alt="bicycle park"/> : ""}
+			  	                 <span style={{width: "2%"}}>&nbsp;&nbsp;</span>
+			{(props.luggage) ?   <img className="img-rounded" src="/images/Luggage-Car.gif" alt="luggage "/> : ""}
+			  				     <span style={{width: "2%"}}>&nbsp;&nbsp;</span>
+			{(props.wheelchair)? <img className="img-rounded" src="/images/Access-Car.gif" alt="Wheelchair accessible"/> : ""}
+			</div> 
+		  </div>
 
-			  {/*<div className="card-block">
-			    <a href="#" className="card-link">Card link</a>
-			    <a href="#" className="card-link">Another link</a>
-			  </div> */}
-			</div>
-        )
-    }
+		  {extras}
+		  
+
+		  {/*<div className="card-block">
+		    <a href="#" className="card-link">Card link</a>
+		    <a href="#" className="card-link">Another link</a>
+		  </div> */}
+		</div>
+    )
 }
+Card.propTypes = propTypes;
 
 // --------
 //  LISTS
@@ -110,7 +125,8 @@ export default Card;
 
 const defaultStyle = {
     		//border: "solid 1px red", 
-    		maxWidth: 400, 
+    		minWidth: 300, 
+    		maxWidth: 400,
     		margin:"0 auto",
     		paddingBottom: 20,
     		borderRadius: radius,
