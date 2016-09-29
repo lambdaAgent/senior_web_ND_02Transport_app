@@ -8,7 +8,7 @@
    * python -m simpleHTTPServer *port*
 4. Client app does not have initial data of each stations. It will fetch from local-server
 5. to run server: 
-   * node ./Server/SERVER.js
+   * node ./SERVER/SERVER.js
 
 ### Notes for build files:
 1. library used: react-create-app, react-router
