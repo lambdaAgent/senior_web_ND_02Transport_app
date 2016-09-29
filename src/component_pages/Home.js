@@ -18,10 +18,8 @@ class Content extends React.Component {
         //set departSelected and arriveSelected;
         this.height = window.innerHeight;
         initDepartureAndArrival(this);
+        FetchAPI.fetchStationsFromServer(this);
         FetchAPI.fetchStationsInterval(this);     
-    }
-    componentWillMount() {
-        FetchAPI.fetchStationsFromServer();
     }
     componentWillUnmount() {
         FetchAPI.stopFetching();         
@@ -49,16 +47,17 @@ class Content extends React.Component {
         if(arriveId && departId){
             if (arriveId > departId){
                 path = "NorthBound"; 
-                valid = true;
+                this.valid = true;
             } else if (arriveId < departId) {
                 path = "SouthBound";
-                valid = true
+                this.valid = true
             } else {
                 path = "Please Select different locations"; 
-                valid = false;
+                this.valid = false;
             }
         } else if(!arriveId || !departId){
-            path = "Please select the empty locations"
+            path = "Please select the empty locations";
+            this.valid = false
         }
         return(
             <div>

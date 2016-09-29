@@ -5,21 +5,33 @@ import Stations from "../stations/stations";
 import { convertScheduleToUnix, findNextFromUnixSchedule } from "../helper/unixifySchedule.js";
 import { FetchAPI } from "../helper/helper";
 import Station from "../stations/stations";
+const $ = require("jquery");
 
 class ShowStationSelection extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-        	width: 0
+        	width: 0,
+        	showDeparture: true,
+        	showArrival: true
         }
     }
     updateDimensions(){
         var screenWidth = window.innerWidth;
-        this.setState({width: screenWidth})
+        //if desktop screen, show both departure and arrival card
+        if(screenWidth > 770 && (!this.state.showDeparture || !this.state.showArrival )){
+        	this.setState({width: screenWidth, showDeparture: true, showArrival: true})	
+        } else if (screenWidth < 770){ 
+        	//on mobile, show departure first, hide arrival
+        	this.setState({width: screenWidth, showDeparture: true, showArrival: false})
+        } else {
+        	this.setState({width: screenWidth});
+        }
     }
     componentDidMount() {
         window.addEventListener("resize", this.updateDimensions.bind(this));  
         this.updateDimensions.call(this);
+        FetchAPI.fetchStationsFromServer(this);
         FetchAPI.fetchStationsInterval(this);     
     }
     componentWillMount() {
@@ -29,6 +41,12 @@ class ShowStationSelection extends React.Component {
         FetchAPI.stopFetching();         
     }
     render() {
+    	if(Stations.getAll().length === 0){
+    		setTimeout(() => {
+    			return this.render()
+    		},1000)
+    		return <div></div>;
+    	}
     	const departure = Stations.getById(localStorage['Departure'].split(",")[0])
     	const departureExtras = [
     		{name:"Southbound complete schedule", content:departure.Southbound},
@@ -45,18 +63,31 @@ class ShowStationSelection extends React.Component {
 		return(
         	<div>
         		<Navbar />
+        		{ (this.state.width < 770) ? //SHOW on MOBILE
+    				<div><TabButton 
+        					onClickOne={ () => this.setState({showDeparture: true, showArrival: false})}
+        					onClickTwo={ () => this.setState({showDeparture: false, showArrival: true})}
+        					showDeparture={this.state.showDeparture} showArrival={this.state.showArrival}
+        				  /></div> : ""
+				}
+				{ (this.state.width < 770) ? //SHOW on MOBILE
+        				<div>
+	        				<TabButton 
+	        					onClickOne={ () => this.setState({showDeparture: true, showArrival: false})}
+	        					onClickTwo={ () => this.setState({showDeparture: false, showArrival: true})}
+	        					showDeparture={this.state.showDeparture} showArrival={this.state.showArrival}
+	        				  />
+        					
+        				</div>
+        				: ""
+				}
         		<div className="container">
-        			<labels className="row" style={{display: this.state.width >= 770 ? "inherit" : "none"}}>
-        				<div className="col-md-6 col-xs-6">
-        					<p className="text-center" style={{fontSize: 25}}>Departure</p>
-        				</div>
-        				<div className="col-md-6 col-xs-6">
-	       					<p className="text-center" style={{fontSize: 25}}>Arrival</p>
-        				</div>
-        			</labels>
-					<div className="row">
+        			{(this.state.width >= 770) ? <Labels/> : ""	}
+        			{(this.state.width >= 770) ? <Labels/> : ""	}
+        			
+					<div className="row" style={{marginTop: 30}}>
   						<div className="col-md-6 col-sm-6 col-xs-12">
-	        			<Card 
+	        			<Card style={{display: this.state.showDeparture ? "inherit" : "none"}}
 	        				title={departure.name}
 	        				image={departure.image}
 	        				zone={departure.zone}
@@ -69,7 +100,7 @@ class ShowStationSelection extends React.Component {
 	        				/>
 	        			</div>
 	        			<div className="col-md-6 col-sm-6 col-xs-12">
-	        			<Card 
+	        			<Card style={{display: this.state.showArrival ? "inherit" : "none"}}
 	        				title={arrival.name}
 	        				image={arrival.image}
 	        				zone={arrival.zone}
@@ -87,8 +118,30 @@ class ShowStationSelection extends React.Component {
         )
     }
 }
+const TabButton = (props) => (
+	<div className="nav nav-pills" style={{width: "100%"}} >
+	  <li style={{width: "48%", display:"inline-block"}} onClick={props.onClickOne} className={props.showDeparture ? "active" : ""}>
+	    <a>Departure</a>
+	  </li>
+	  <li style={{width: "48%", display:"inline-block"}} onClick={props.onClickTwo} className={props.showArrival ? "active" : ""}>
+	    <a>Arrival</a>
+	  </li>
+	</div>
+)
+
+const Labels = (props) => (
+	<div className="row" >
+		<div className="col-md-6 col-xs-6">
+			<p className="text-center" style={{fontSize: 25}}>Departure</p>
+		</div>
+		<div className="col-md-6 col-xs-6">
+				<p className="text-center" style={{fontSize: 25}}>Arrival</p>
+		</div>
+	</div>
+)
 
 export default ShowStationSelection;
+
 
 
 function determinePathAndNextTrain(departure, arrival){

@@ -4,8 +4,7 @@ var navbuttonHeight = ""
 const NavButton = (props) => {
 	var positionStyle = {top: props.screenHeight/2 + "px", zIndex: 1000, opacity: 0.6}
 	props.position === "right" ? positionStyle.right = "10px"    : positionStyle.left = "10px";
-	console.log("url", props.url.indexOf("book=true"))
-	if(props.screenWidth <= 760 && props.url.indexOf("book=true") === -1){
+	if(props.screenWidth <= 770 && props.url.indexOf("book=true") === -1){
 		// if mobile and  !booking state
 	  	positionStyle.display = "inherit" 
 	} else {

@@ -5,7 +5,8 @@ import Home from './component_pages/Home';
 import StationDetail from "./component_pages/StationDetail";
 import SelectStation from "./component_pages/SelectStation";
 import ShowStationSelection from "./component_pages/ShowStationSelection";
-import NoMatch from "./component_pages/NoMatch"
+import NoMatch from "./component_pages/NoMatch";
+import "./bootstrap/css/bootstrap.css";
 import './index.css';
 import { Router, Route, browserHistory } from 'react-router'
 

@@ -6,7 +6,7 @@
 3. To run client: 
    * cd build
    * python -m simpleHTTPServer *port*
-4. Client app does not have initial data of each stations. It will fetch from local-server
+4. Client app does not have initial data of each stations. It will need to fetch from server.
 5. to run server: 
    * node ./SERVER/SERVER.js
 
@@ -15,13 +15,14 @@
 2. All Components in Jsx are compiled into build directory
 3. directory for build:
    * /build
+     * index.html   &nbsp;&nbsp; # index.html for build
+     * favicon.ico
+     * sw.js  &nbsp;&nbsp; # **serviceWorker can be edited without compilation**
+     * /images
      * /static
        * /css
-         * main.be08d7cd.css  &nbsp;&nbsp; # compiled css
        * /js      
-         * main.6b0807af.js   &nbsp;&nbsp; # compiled build javascript
-       * index.html           &nbsp;&nbsp; # index.html for build
-       * favicon.ico
+
 
 ### Notes for development files :
 1. I use <a href="https://facebook.github.io/react/blog/2016/07/22/create-apps-with-no-configuration.html">react-create-app</a> as a build tool, it uses webpack in background with very minimum configuration

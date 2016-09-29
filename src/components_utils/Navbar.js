@@ -11,12 +11,14 @@ class Navbar extends React.Component {
     }
     updateDimensions(){
         var screenWidth = window.innerWidth;
-        currentUrl = window.location.href
-        this.setState({width: screenWidth})
     }
     componentDidMount() {
+        currentUrl = window.location.href;
         window.addEventListener("resize", this.updateDimensions.bind(this));  
         this.updateDimensions.call(this);
+    }
+    componentWillUnmount() {
+        console.log("UNMOUNT NAVBAR")     
     }
     render() {
         const self = this;
@@ -54,10 +56,10 @@ class Navbar extends React.Component {
                             </div>
                         </div>
                     
-                    : /*show below only if back button is ON*/
-                        <div className="navbar-header" style={{width: "100%"}}>
-                            <Link className="navbar-brand" onClick={ () => window.history.back() }> {"< Back"}</Link>
-                        </div>
+                    : /*show below only if back button is ON*/ ""
+                        // <div className="navbar-header" style={{width: "100%"}}>
+                        //     <Link className="navbar-brand" onClick={ () => window.history.back() }> {"< Back"}</Link>
+                        // </div>
                 }
 			</nav>
         )

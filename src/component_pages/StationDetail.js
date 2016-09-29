@@ -5,8 +5,9 @@ import NavButton from "../components_utils/NavButton";
 import Card from "../components_utils/Card";
 import {FetchAPI} from "../helper/helper";
 import { browserHistory } from "react-router";
-import { convertUnixToTime, convertScheduleToUnix, findNextFromUnixSchedule } from "../helper/unixifySchedule.js";
+import { convertScheduleToUnix, findNextFromUnixSchedule } from "../helper/unixifySchedule.js";
 import moment from "moment";
+import SidebarStationList from "../components_utils/SidebarStationList";
 
 class StationDetail extends React.Component {
 	constructor(props) {
@@ -23,11 +24,9 @@ class StationDetail extends React.Component {
 		window.addEventListener("resize", this.update.bind(this));  
 		this.setState({url: window.location.href})
         this.update.call(this);
+        FetchAPI.fetchStationsFromServer(this);
         FetchAPI.fetchStationsInterval(this);         
 	}
-	componentWillMount() {
-        FetchAPI.fetchStationsFromServer();
-    }
     componentWillUnmount() {
         FetchAPI.stopFetching();         
     }
@@ -55,9 +54,14 @@ class StationDetail extends React.Component {
 		const Northbound_unix = convertScheduleToUnix(_station.Northbound);
 		const findNextNB = findNextFromUnixSchedule(Northbound_unix);
 		return(
-	    	<div>
+	    	<div className="container">
 	    		<Navbar />
-
+		    	{(isBooking) ? 
+	        		<button className="btn btn-primary" 
+	                        style={{marginBottom: 40 }}
+	                        onClick={ () => history.back() }>{"< Back"}</button>
+	                : ""
+	            }
 	    	    {/* navigation button to next and prev station*/}
 	    		<NavButton  content=">" position="right" 
 				    		screenHeight={this.state.height} screenWidth={this.state.width} 
@@ -67,23 +71,28 @@ class StationDetail extends React.Component {
 		    	            screenHeight={this.state.height} screenWidth={this.state.width} 
    				    		url={this.state.url}
 						    onClick={this.prevButton.bind(this) }/>	    
-	    		
-	    		{/*mobile view only*/}
-		    	<div className="container">
-		    		<Card 
-		    			title={_station.name}
-		    			zone={_station.zone}
-		    			image={_station.image}
-		    			extras={extras}
-		    			bicycle={_station.amnesties.bicycle}
-		    			luggage={_station.amnesties.luggage}
-		    			wheelchair={_station.amnesties.wheelchair}
-		    			nextSouthBound={findNextSB}
-		    			nextNorthBound={findNextNB}
-		    			/>
+				<div className="row">
+					{(this.state.width > 770 && !isBooking()) ? //if desktop and there is no query ?book=true  		
+	    				<SidebarStationList 
+	    				 className="col-md-3 col-sm-3" style={{maxWidth: 213}}
+	    				 stations={Station.getAll()}/>
+	    				: ""
+	    			}
+		    		{/*mobile view only*/}
+			    	<div className="" >
+			    		<Card 
+			    			title={_station.name}
+			    			zone={_station.zone}
+			    			image={_station.image}
+			    			extras={extras}
+			    			bicycle={_station.amnesties.bicycle}
+			    			luggage={_station.amnesties.luggage}
+			    			wheelchair={_station.amnesties.wheelchair}
+			    			nextSouthBound={findNextSB}
+			    			nextNorthBound={findNextNB}
+			    			/>
+					</div>
 				</div>
-
-
 			</div>
 	    )
 	}
@@ -107,3 +116,13 @@ const EmptyPage = (props) => (
 )
 
 export default StationDetail;
+
+
+function isBooking(){
+	var url = window.location.href;
+	var query = url.split("?")[1] || "";
+	if(query.indexOf("book=true") >= 0){
+		return true;
+	}
+	return false;
+}

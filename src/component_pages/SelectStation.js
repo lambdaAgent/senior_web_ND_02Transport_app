@@ -13,10 +13,8 @@ class SelectStation extends React.Component {
     }
     componentDidMount() {
         this.setState({height: window.screen.innerHeight})
+        FetchAPI.fetchStationsFromServer(this);
         FetchAPI.fetchStationsInterval(this);     
-    }
-    componentWillMount() {
-        FetchAPI.fetchStationsFromServer();
     }
     backHistory(){
         window.history.back();
