@@ -4,7 +4,6 @@ var cookieParser = require("cookie-parser");
 var path = require("path");
 var router = express.Router();
 var fs = require('fs');
-var AdmZip = require('adm-zip');
 var http = require('http');
 var url = require('url');
 
@@ -24,10 +23,18 @@ app.set('view engine', 'hbs');
 /* GET home page. */
 
 app.get("/", (req, res, next) => {
-	console.log("asdfasfd")
 	res.render("index.html")
 });
-
+app.use(function (req, res, next) {
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '#');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 app.get('/getAllStationsFromServer', function(req, res, next) {
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');

@@ -5,7 +5,6 @@ this.addEventListener("install", event => {
 				"/",
 				"/index.html",
 				"/favicon.ico",
-				"/bootstrap.css",
 				"/static/css/main.f9541ae4.css",
 				"/static/css/main.f9541ae4.css.map",
 				"/static/js/main.654980a7.js",

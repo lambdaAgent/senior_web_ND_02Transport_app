@@ -1,6 +1,12 @@
 import React from "react";
 import {Link} from "react-router";
 
+/*
+  Actions button for the booking process
+  --clearBtn -- clear booking
+  --okBtn -- process to see details
+*/
+
 const BookButton = (props) => {
     var selected = function(){
         return <div>

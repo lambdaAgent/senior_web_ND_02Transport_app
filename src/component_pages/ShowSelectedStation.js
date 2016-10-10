@@ -31,11 +31,7 @@ class ShowStationSelection extends React.Component {
     componentDidMount() {
         window.addEventListener("resize", this.updateDimensions.bind(this));  
         this.updateDimensions.call(this);
-        FetchAPI.fetchStationsFromServer(this);
         FetchAPI.fetchStationsInterval(this);     
-    }
-    componentWillMount() {
-        FetchAPI.fetchStationsFromServer();
     }
     componentWillUnmount() {
         FetchAPI.stopFetching();         
@@ -60,6 +56,10 @@ class ShowStationSelection extends React.Component {
 			{name:"Vendors", content:arrival.vendors},
 		];
 		const nextTrain = determinePathAndNextTrain(departure, arrival);
+		const path = ("path" in nextTrain["Northbound"]) ? "Northbound" : "Southbound";
+		const index = nextTrain[path][index];
+		const ETA = findETA(departure, arrival, path, index);
+
 		return(
         	<div>
         		<Navbar />
@@ -159,22 +159,45 @@ function determinePathAndNextTrain(departure, arrival){
 		// "Southbound";
 		const DepartureSouthbound_unix = convertScheduleToUnix(departure.Southbound);
 		const findNextSB_Departure = findNextFromUnixSchedule(DepartureSouthbound_unix);
+
 		const ArrivalSouthbound_unix = convertScheduleToUnix(arrival.Southbound);
 		const findNextSB_Arrival = findNextFromUnixSchedule(ArrivalSouthbound_unix);
+		
 		result["Southbound"] = {
 			nextSBDeparture: findNextSB_Departure,
-			nextSBArrival: findNextSB_Arrival
+			nextSBArrival: findNextSB_Arrival,
+			path: "Southbound"
 		}
 	} else if (departure.id < arrival.id) {
 		// "Northbound";
 		const DepartureNorthbound_unix = convertScheduleToUnix(departure.Northbound);
-		const findNextNB_Departure = findNextFromUnixSchedule(DepartureNorthbound_unix);
+		const findNextNB_Departure = findNextFromUnixSchedule(departure.Northbound, DepartureNorthbound_unix)
 		const ArrivalNorthbound_unix = convertScheduleToUnix(arrival.Northbound);
-		const findNextNB_Arrival = findNextFromUnixSchedule(ArrivalNorthbound_unix);
+		const findNextNB_Arrival = findNextFromUnixSchedule(arrival.Northbound ,ArrivalNorthbound_unix)
+
+		console.log("departure", departure);
+		console.log("findNextNB_Departure", findNextNB_Departure)
 		result["Northbound"] = {
 			nextNBDeparture: findNextNB_Departure,
-			nextNBArrival: findNextNB_Arrival
+			nextNBArrival: findNextNB_Arrival,	
+			path: "Northbound"
 		}
 	}
 	return result
+}
+
+function findETA(departure, arrival, path, index){
+	//path : [Northbound, Southbound]
+	//get departureTime, get arrivalTime, arrivalTime - departureTime in unix()
+	const departureTime = departure[path].split(", ")[index];
+	console.log(index)
+	const arrivalTime = departure[path].split(", ")[index];
+}
+
+function convertToSecond(timeString){
+	var hour$minute = timeString.split(":");
+	var hour =  hour$minute[0];
+	var minute = hour$minute[1];
+	var seconds = Number(hour) * 60 * 60 + (Number(minute) * 60)
+	return seconds;
 }

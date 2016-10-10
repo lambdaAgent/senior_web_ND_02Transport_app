@@ -11,16 +11,16 @@ const zone_color = {
 	6:"#8e44ad"
 }
 const propTypes = {
- 	// title: React.PropTypes.string.isRequired,
- 	// subtitle: React.PropTypes.string,
- 	// zone: React.PropTypes.number.isRequired,
- 	// image: React.PropTypes.string.isRequired,
- 	// nextSouthBound: React.PropTypes.string,
- 	// nextNorthBound: React.PropTypes.string,
- 	// extras: React.PropTypes.array.isRequired,
- 	// bicycle: React.PropTypes.bool,
- 	// wheelchair: React.PropTypes.bool,
- 	// luggage: React.PropTypes.bool
+ 	title: React.PropTypes.string.isRequired,
+ 	subtitle: React.PropTypes.string,
+ 	zone: React.PropTypes.number.isRequired,
+ 	image: React.PropTypes.string.isRequired,
+ 	nextSouthBound: React.PropTypes.string,
+ 	nextNorthBound: React.PropTypes.string,
+ 	extras: React.PropTypes.array.isRequired,
+ 	bicycle: React.PropTypes.bool,
+ 	wheelchair: React.PropTypes.bool,
+ 	luggage: React.PropTypes.bool
 }
 
 const Card = (props) => {

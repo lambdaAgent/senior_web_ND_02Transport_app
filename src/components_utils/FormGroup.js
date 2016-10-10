@@ -30,7 +30,7 @@ class FormGroup extends React.Component {
                  title={props.title || props.label}/>
                
 	    		<p id={"help-"+ helpId} 
-             className="help-block" 
+             className="help-block" role="alert"
              style={Object.assign({}, props.helpStyle, {color:"red"})}>
              { this.state.showError ? props.errorMessage : "" }
           </p>

@@ -16,12 +16,22 @@ function randomizeScheduleOnAll(stations){
 }
 function randomizeSchedule(schedule){
     return schedule.split(", ").map(t => {
-      var hours = t.split(":")[0];
-      var minutes_rand = Math.floor(Math.random() * 59)
-      if (minutes_rand < 10){
-        minutes_rand = "0" + minutes_rand
+      var hour_minute = t.split(":");
+      var hours = hour_minute[0];
+      var minute = hour_minute[1].substring(0,2);
+      //offset the minute to +5minutes or -5minutes
+      var minutes_rand = (Math.random() < 0.5 ? -1 : 1) * (Math.floor(Math.random() * 3));
+      //if minute is minus, it will be converted to NaN, so prevent it
+      minute = Number(minute) + Number(minutes_rand);
+      if(minute < 0) minute = 0;
+      if(minute > 59) minute = 59
+      
+      if (minute < 10){
+        //digitize to double digit, i.e: 01, 02, not 1,2;
+        minute = "0" + String(minute);
       }
-      return String(hours) + ":" + minutes_rand;
+      
+      return String(hours) + ":" + minute;
     }).join(", ")
 }
 
