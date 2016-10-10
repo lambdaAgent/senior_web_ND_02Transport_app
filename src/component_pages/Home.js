@@ -65,7 +65,10 @@ class Content extends React.Component {
             	<div className="container">
                     <div style={{display: !this.state.showStationTable ? "inherit" : "none",
                                 maxWidth: "700px", margin: "0 auto", 
-                                marginTop: (height/2)-200}}>
+                                marginTop: 70}}>
+                        <h2 className="text-center">Select Stations</h2>
+                        <hr />
+                        <br />
                        <BookButton 
                             className={"btn-primary"}
                             label={"Departure"} 
@@ -83,6 +86,11 @@ class Content extends React.Component {
                         <ButtonGroup
                             okBtn={this.okBtn.bind(this)} 
                             clearBtn={this.clearBtn.bind(this)}/>
+                        <br /> 
+                        <br />
+                        <h2 className="text-center"> Stations Map </h2>                        
+                        <hr />
+                        <img src="/images/Caltrain_Zone_Map.png" alt="Caltrain zone map" />
                     </div>
                 </div>
             </div>

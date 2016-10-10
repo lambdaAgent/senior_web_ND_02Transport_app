@@ -1,9 +1,12 @@
+var staticCacheName = "train-v1";
+
 this.addEventListener("install", event => {
+	//caches waitUntil all resources has been added
 	event.waitUntil(
-		caches.open("train-v1").then(cache => {
+		caches.open(staticCacheName).then(cache => {
 			return cache.addAll([
 				"/",
-				"/index.html",
+				"/index.hbs",
 				"/favicon.ico",
 				"/bootstrap/css/bootstrap.css",
 				"/bootstrap/fonts/glyphicons-halflings-regular.eot",
@@ -13,10 +16,11 @@ this.addEventListener("install", event => {
 				"/bootstrap/fonts/glyphicons-halflings-regular.woff2",				
 				"/static/css/main.9ee545ee.css",
 				"/static/css/main.9ee545ee.css.map",
-				"/static/js/main.2f9d7a16.js",
-				"/static/js/main.2f9d7a16.js.map",
+				"/static/js/main.af067125.js",
+				"/static/js/main.af067125.js.map",
 				
 				// ---- images -------
+				"/images/Caltrain_Zone_Map.png",
 				"/images/22nd_Street.jpg",
 				"/images/Access-Car.gif",
 				"/images/Atherton_Station.jpg",
@@ -60,8 +64,23 @@ this.addEventListener("install", event => {
 
 this.addEventListener("fetch", function(event){
 	event.respondWith(
-		caches.match(event.request).then(function(res){
-			return res || fetch(event.request)
+		caches.match(event.request)
+		      .then(function(res){
+					return res || fetch(event.request)
+		      }));
+});
+
+this.addEventListener("activate", function(event){
+	event.waitUntil(
+		caches.keys()
+		      .then(function(cacheNames){
+		      	return Promise.all(
+			      	cacheNames.filter(function(name){
+			      		return name.startsWith('train-') && name != staticCacheName;
+			      	}).map(function(cacheName){
+			      		return cache.delete(cacheName)
+			      	})
+			    );
 		})
 	)
 })

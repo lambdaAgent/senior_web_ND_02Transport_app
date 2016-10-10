@@ -1,21 +1,49 @@
 import Stations from "../stations/stations.js"
+import Dexie from "dexie";
 
+var db = new Dexie("TrainDatabase");
+db.version(1).stores({
+  stations: "id"
+});
 
 const FetchAPI = {
   _fetchInterval: undefined,
   fetchStationsFromServer(React){
-      fetch("http://localhost:8888/getAllStationsFromServer")
-      .then(res => res.json())
-      .then(stations => {
-        Stations.replace(stations);
-        if(React) React.setState({stations: Stations.getAll() })
-      })
-      .catch(err => {
-        var cacheStations = Stations.getAll();
-        if(cacheStations) Stations.replace(cacheStations);
-        if(React) React.setState({stations: Stations.getAll() })
-        this.stopFetching();
-      })
+          fetch("http://localhost:8888/getAllStationsFromServer")
+          .then(res => res.json())
+          .then(stations => {
+          //put the data to indexedDB          
+          return Dexie.Promise.all(
+            stations.map(s => db.stations.put({
+              id: s.id,
+              zone: s.zone,
+              name: s.name,
+              Southbound: s.Southbound,
+              Northbound: s.Northbound,
+              vendors: s.vendors,
+              address: s.address,
+              amnesties: s.amnesties,
+              image: s.image
+           }))
+          ).then((arr) => {
+            var stations = [];
+            //then grab the data out of indexedDB
+            db.stations.each(station => {
+              stations.push(station) 
+            }).then(arr => {
+              //update react
+              Stations.replace(stations);
+              if(React) React.setState({stations: Stations.getAll() })
+            })
+          });
+        })//fetch()
+        .catch(err => {
+            var cacheStations = Stations.getAll();
+            if(cacheStations) Stations.replace(cacheStations);
+            if(React) React.setState({stations: Stations.getAll() })
+            this.stopFetching();
+        });
+      
   },
   fetchStationsInterval(React){
     this._fetchInterval = setInterval( () => {

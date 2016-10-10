@@ -51,7 +51,6 @@ var stations =  [
         luggage: false
       },
       image: "/images/San_Francisco_Station.jpg",
-    
     },    
      { id: "002", 
       zone:1,

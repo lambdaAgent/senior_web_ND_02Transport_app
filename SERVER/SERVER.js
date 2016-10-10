@@ -12,18 +12,18 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'build')));
-app.use(express.static(path.join(__dirname, 'src')));
+app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, '../src')));
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../build'));
 app.set('view engine', 'hbs');
 
 
 /* GET home page. */
 
 app.get("/", (req, res, next) => {
-	res.render("index.html")
+	res.render("index")
 });
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
