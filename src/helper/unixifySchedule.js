@@ -16,23 +16,57 @@ function findNextFromUnixSchedule(schedule, UnixSchedule){
 	var time = Date.parse(new Date());
 	//maybe .filter() does not guarantee order execution
 	var index;
+
 	for (var i=0; i < UnixSchedule.length; i++){
 		if(time < UnixSchedule[i]){
 			index = i;
 			break;
 		}
 	}
-	var result = schedule.split(", ")
-	//need the index to find ETA
-	return result[index]
+	var result = schedule.split(", ")[index];
+	var result_hour = result.split(":")[0];
+	    result_hour =  Number(result_hour) < 10 ? "0"+result_hour : result_hour;
+	var result_digitilize = String(result_hour) + ":" + result.split(":")[1]
+	var today = moment().format("YYYY-MM-DD HH:mm a");
+	var date_HourMin_AmPm = today.split(" ");
+	var departureTimeString = date_HourMin_AmPm[0] + " " + result_digitilize + " " + date_HourMin_AmPm[2];
+	var unix = moment(departureTimeString, "YYYY-MM-DD HH:mm a").valueOf();
+	                      //the last index, is hour indication of AM or PM
+	return [result, unix, departureTimeString.slice(-2)]
 }
 
+//findNextDeparture is like findNextFromUnixSchedule, but
+// the initial time is not today date, but departure time
+function findNextArrival(departureTimeUnix, schedule, UnixSchedule){
+	var time = departureTimeUnix;
+	//maybe .filter() does not guarantee order execution
+	var departureTimeString = new Date(departureTimeUnix);
+	var index;
+	for (var i=0; i < UnixSchedule.length; i++){
+		if(time < UnixSchedule[i]){
+			index = i;
+			break;
+		}
+	}
+	var result = schedule.split(", ");
+	// console.log(schedule.split(", "))
+	// console.log(UnixSchedule)
+	// console.log("unix time", time)
+	// console.log("departure time",departureTimeString)
+	// console.log("UnixSchedule", UnixSchedule.map(u => new Date( u )) )
+	// console.log("index",result[0])
+	//need the index to find ETA
+	var today = moment().format("YYYY-MM-DD HH:mm a");
+	         //result      , 12hour indication of AM or PM
+	return [ result[index] , today.slice(-2)]
+}
 
 
 module.exports = {
 	convertUnixToTime, 
 	convertScheduleToUnix, 
-	findNextFromUnixSchedule
+	findNextFromUnixSchedule,
+	findNextArrival
 }
 
 // -------------
@@ -59,7 +93,6 @@ function lessThan10(time){
 }
 
 function adjustSchedule(schedule){
-	console.log("schedule", schedule)
 	//find first 12,
 	var arr = schedule.split(",");
 	var result = [];
@@ -71,12 +104,11 @@ function adjustSchedule(schedule){
 			break;
 		}
 	}
-	console.log("INDEX SLICEING", idx)
 
-	var AM = arr.slice(0, idx)
-	var PM = arr.slice(idx)
+	var AM = arr.slice(0, idx+1);
+	var PM = arr.slice(idx+1);
 	var currentDate = moment().format("YYYY-MM-DD")
-	var AM = arr.slice(0,idx).map((time)=>{
+	var AM = arr.slice(0,idx+1).map((time)=>{
 		if (lessThan10(time)){
 			time = "0"+ time.trim();
 		} else {
@@ -86,7 +118,7 @@ function adjustSchedule(schedule){
 		var str = String(currentDate) + " " + time + ":00"
 		return str
 	});
-	var PM = arr.slice(idx).map(time => {
+	var PM = arr.slice(idx+1).map(time => {
 		var hour_minute = time.split(":");
 		var hour = Number( hour_minute[0]  ) + 12;
 
@@ -109,7 +141,6 @@ function adjustSchedule(schedule){
 }
 
 function convertArrToUnix(arr){
-	console.log(arr)
 	var result =  arr.map(time => Date.parse(time))
 	return result;
 }
@@ -120,7 +151,7 @@ function preventMinuteTobeMoreThan59(time){
 	minute = (Number(minute) < 0) ? "00" : minute
 	minute = (Number(minute) < 10) ? "0" + minute : minute
 
-	return hour + String(minute)
+	return hour + ":" + String(minute)
 }
 
 

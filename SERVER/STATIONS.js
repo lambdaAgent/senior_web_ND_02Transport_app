@@ -19,8 +19,8 @@ function randomizeSchedule(schedule){
       var hour_minute = t.split(":");
       var hours = hour_minute[0];
       var minute = hour_minute[1].substring(0,2);
-      //offset the minute to +5minutes or -5minutes
-      var minutes_rand = (Math.random() < 0.5 ? -1 : 1) * (Math.floor(Math.random() * 3));
+      //offset the minute to +1minutes or -1minutes
+      var minutes_rand = (Math.random() < 0.5 ? -1 : 1) * (Math.floor(Math.random() * 1));
       //if minute is minus, it will be converted to NaN, so prevent it
       minute = Number(minute) + Number(minutes_rand);
       if(minute < 0) minute = 0;
@@ -43,6 +43,8 @@ var stations =  [
       Northbound: "6:03, 6:38, 6:47, 7:22, 7:07, 7:51, 7:47, 8:03, 8:22, 8:07, 8:51, 8:47, 9:03, 9:27, 9:09, 9:50, 10:09, 10:50, 11:15, 11:50, 12:43, 1:43, 2:43, 3:50, 4:04, 4:40, 5:06, 5:32, 5:27, 5:43, 6:06, 5:49, 6:33, 6:27, 6:43, 7:06, 6:49, 7:32, 7:27, 7:43, 8:02, 8:23, 9:04, 10:04, 11:04, 12:04 ",
       vendors: "Tazza D'Amore (M-F 6a-7p; Sat 8a-3p), Subway sandwich, Bow-K Flowers",
       address: "700 4th St., San Francisco 94107",
+      lng:-122.394992,
+      lat:37.77639,
       amnesties: {
         wheelchair: true,
         bicycle:true,
@@ -58,6 +60,8 @@ var stations =  [
       Northbound: "5:54, 6:29, 7:44, 8:44, 9:44, 10:43, 11:43, 12:37, 1:37, 2:37, 3:43, 4:32, 4:58, 5:25, 5:21, 5:35, 6:00, 5:43, 6:25, 6:21, 6:35, 7:00, 6:43, 7:25, 7:21, 7:35, 7:55, 8:14, 8:57, 9:57, 10:57, 11:57", 
       vendors: "",
       address: "1149 22nd St., San Francisco 94107",
+      lng:-122.39188,
+      lat:37.757599,
       amnesties: {
         wheelchair: false,
         bicycle:true,
