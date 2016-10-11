@@ -66,7 +66,7 @@ var stations =  [
         bicycle:true,
         luggage: false
       },
-      image: "/images/22nd_street.jpg",
+      image: "/images/22nd_Street.jpg",
      
     },  
      { id: "003", 
