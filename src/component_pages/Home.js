@@ -90,7 +90,7 @@ class Content extends React.Component {
                         <br />
                         <h2 className="text-center"> Stations Map </h2>                        
                         <hr />
-                        <img src="/images/Caltrain_Zone_Map.png" alt="Caltrain zone map" />
+                        <img className="img-responsive" src="/images/Caltrain_Zone_Map.png" alt="Caltrain zone map" />
                     </div>
                 </div>
             </div>

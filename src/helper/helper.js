@@ -9,39 +9,60 @@ db.version(1).stores({
 const FetchAPI = {
   _fetchInterval: undefined,
   fetchStationsFromServer(React){
-          fetch("http://localhost:8888/getAllStationsFromServer")
+        fetch("http://localhost:8888/getAllStationsFromServer")
           .then(res => res.json())
           .then(stations => {
-          //put the data to indexedDB          
-          return Dexie.Promise.all(
-            stations.map(s => db.stations.put({
-              id: s.id,
-              zone: s.zone,
-              name: s.name,
-              Southbound: s.Southbound,
-              Northbound: s.Northbound,
-              vendors: s.vendors,
-              address: s.address,
-              amnesties: s.amnesties,
-              image: s.image
-           }))
-          ).then((arr) => {
-            var stations = [];
-            //then grab the data out of indexedDB
-            db.stations.each(station => {
-              stations.push(station) 
-            }).then(arr => {
-              //update react
-              Stations.replace(stations);
-              if(React) React.setState({stations: Stations.getAll() })
-            })
-          });
+            //put the data to indexedDB          
+            return Dexie.Promise.all(
+                stations.map(s => db.stations.put({
+                  id: s.id,
+                  zone: s.zone,
+                  name: s.name,
+                  Southbound: s.Southbound,
+                  Northbound: s.Northbound,
+                  vendors: s.vendors,
+                  address: s.address,
+                  amnesties: s.amnesties,
+                  image: s.image
+               }))
+            )
+            .then((arr) => {
+                var stations = [];
+                //then grab the data out of indexedDB
+                db.stations.each(station => {
+                    stations.push(station) 
+                }).then(arr => {
+                    //update react
+                    Stations.replace(stations);
+                    if(React) React.setState({stations: Stations.getAll() })
+                })
+            })//promise.all().then()
         })//fetch()
         .catch(err => {
-            var cacheStations = Stations.getAll();
-            if(cacheStations) Stations.replace(cacheStations);
-            if(React) React.setState({stations: Stations.getAll() })
+            var cacheStations = [];
             this.stopFetching();
+            
+            //check if database exists
+            Dexie.getDatabaseNames( (databaseNames) => {
+              if (databaseNames.length === 0) {
+                  // No databases at this origin as we know of.
+                  return console.log("There are no databases at current origin. Try loading another sample and then go back to this page.");
+              }
+
+              //get from indexedDB
+               db.open();
+               return db.stations.each(s => {
+                  cacheStations.push(s)
+               })
+            })
+            .then( () => {
+                if(Array.isArray(cacheStations) && cacheStations.length > 0) {
+                    Stations.replace(cacheStations);
+                }
+                if(React) React.setState({stations: Stations.getAll() });
+                db.close();
+            })
+           
         });
       
   },

@@ -20,11 +20,7 @@ app.set('views', path.join(__dirname, '../build'));
 app.set('view engine', 'hbs');
 
 
-/* GET home page. */
 
-app.get("/", (req, res, next) => {
-	res.render("index")
-});
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '#');
@@ -34,6 +30,12 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
+});
+
+/* GET home page. */
+
+app.get("/", (req, res, next) => {
+    res.render("index")
 });
 app.get('/getAllStationsFromServer', function(req, res, next) {
     // Website you wish to allow to connect
