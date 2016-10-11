@@ -6,7 +6,7 @@ this.addEventListener("install", event => {
 		caches.open(staticCacheName).then(cache => {
 			return cache.addAll([
 				"/",
-				"/index.hbs",
+				"/index.html",
 				"/favicon.ico",
 				"/bootstrap/css/bootstrap.css",
 				"/bootstrap/fonts/glyphicons-halflings-regular.eot",
@@ -16,8 +16,8 @@ this.addEventListener("install", event => {
 				"/bootstrap/fonts/glyphicons-halflings-regular.woff2",				
 				"/static/css/main.9ee545ee.css",
 				"/static/css/main.9ee545ee.css.map",
-				"/static/js/main.af067125.js",
-				"/static/js/main.af067125.js.map",
+				"/static/js/main.c244ae46.js",
+				"/static/js/main.c244ae46.js.map",
 				
 				// ---- images -------
 				"/images/Caltrain_Zone_Map.png",
