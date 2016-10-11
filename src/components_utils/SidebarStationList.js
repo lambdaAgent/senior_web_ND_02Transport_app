@@ -17,7 +17,7 @@ const SidebarList = (props) => {
 	})
 	return(
 		<div className={props.className} 
-		     style={Object.assign({}, props.style)}>
+		     style={Object.assign({}, props.style, {display:"inline-block"})}>
 			<ul className="list-group">
 			   {renderZone}
 			</ul>

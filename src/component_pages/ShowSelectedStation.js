@@ -58,8 +58,6 @@ class ShowStationSelection extends React.Component {
 		const nextTrain = determinePathAndNextTrain(departure, arrival);
 		const path = ("path" in nextTrain["Northbound"]) ? "Northbound" : "Southbound";
 
-		// why american is so fuzzyy with measurement? use 24hour and km...
-
 		// const distance = findDistance(departure.lng, departure.lat, arrival.lng, arrival.lat); //km
 		// const CaltrainSpeed = 127.138; // km/hour
 		// const duration = (distance/CaltrainSpeed) * 60;
@@ -161,33 +159,33 @@ function determinePathAndNextTrain(departure, arrival){
 		}
 	};
 	if(departure.id > arrival.id){
-
+		//found out about array destructuring in ES6
 		const DepartureSouthbound_unix = convertScheduleToUnix(departure.Northbound);
-		const nextSBResult__unix__AmPm = findNextFromUnixSchedule(departure.Northbound, DepartureSouthbound_unix)
-		const findNextSB_Departure = nextSBResult__unix__AmPm[0];
+		const [ departureResult, departureUnix, departureAmPm ] = findNextFromUnixSchedule(departure.Northbound, DepartureSouthbound_unix)
+		
 		const ArrivalNorthbound_unix = convertScheduleToUnix(arrival.Northbound);
-		const NextSBresult__AmPm = findNextArrival(nextSBResult__unix__AmPm[1], arrival.Northbound, ArrivalNorthbound_unix)
-		const findNextSB_Arrival = NextSBresult__AmPm[0];
+		const [ arrivalResult, arrivalAmPm ] = findNextArrival(departureUnix, arrival.Northbound, ArrivalNorthbound_unix)
+		
 		result["Southbound"] = {
-			nextSBDeparture: findNextSB_Departure,
-			nextSBArrival: findNextSB_Arrival,	
-			departure: findNextSB_Departure + " " + nextSBResult__unix__AmPm[2] ,
-			arrival: findNextSB_Arrival + " " + NextSBresult__AmPm[1],
+			nextSBDeparture: departureResult,
+			nextSBArrival: arrivalResult,	
+			departure: departureResult + " " + departureAmPm ,
+			arrival: arrivalResult + " " + arrivalAmPm,
 			path: "Southbound"
 		}
 	} else if (departure.id < arrival.id) {
 		// "Northbound";
 		const DepartureNorthbound_unix = convertScheduleToUnix(departure.Northbound);
-		const nextNBResult__unix__AmPm = findNextFromUnixSchedule(departure.Northbound, DepartureNorthbound_unix)
-		const findNextNB_Departure = nextNBResult__unix__AmPm[0];
+		const [ departureResult, departureUnix, departureAmPm ] = findNextFromUnixSchedule(departure.Northbound, DepartureNorthbound_unix)
+
 		const ArrivalNorthbound_unix = convertScheduleToUnix(arrival.Northbound);
-		const NextNBresult__AmPm = findNextArrival(nextNBResult__unix__AmPm[1], arrival.Northbound, ArrivalNorthbound_unix)
-		const findNextNB_Arrival = NextNBresult__AmPm[0];
+		const [ arrivalResult, arrivalAmPm ] = findNextArrival(departureUnix, arrival.Northbound, ArrivalNorthbound_unix)
+
 		result["Northbound"] = {
-			nextNBDeparture: findNextNB_Departure,
-			nextNBArrival: findNextNB_Arrival,	
-			departure: findNextNB_Departure + " " + nextNBResult__unix__AmPm[2] ,
-			arrival: findNextNB_Arrival + " " + NextNBresult__AmPm[1],
+			nextNBDeparture: departureResult,
+			nextNBArrival: arrivalResult,	
+			departure: departureResult + " " + departureAmPm ,
+			arrival: arrivalResult + " " + arrivalAmPm,
 			path: "Northbound"
 		}
 	}

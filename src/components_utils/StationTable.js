@@ -9,11 +9,12 @@ const StationTable = (props) => {
     const stations = props.stations || []
     const loop = stations.map( s => {
         const Southbound_unix = convertScheduleToUnix(s.Southbound);
-        const nextSBResult__unix__AmPm = findNextFromUnixSchedule(s.Southbound, Southbound_unix);
-        const findNextSB = nextSBResult__unix__AmPm[0] + " " + nextSBResult__unix__AmPm[2];
+        const [SBResult, SBUnix, SBAmPm] = findNextFromUnixSchedule(s.Southbound, Southbound_unix);
+        const findNextSB = SBResult + " " + SBAmPm;
+
         const Northbound_unix = convertScheduleToUnix(s.Northbound);
-        const nexNBResult__unix__AmPm = findNextFromUnixSchedule(s.Northbound, Northbound_unix);
-        const findNextNB = nexNBResult__unix__AmPm[0] + " " + nexNBResult__unix__AmPm[2];
+        const [NBResult,NBunix,NBAmPm] = findNextFromUnixSchedule(s.Northbound, Northbound_unix);
+        const findNextNB = NBResult + " " + NBAmPm;
         
         return  <Cell key={s.id} id={s.id} name={s.name} zone={s.zone} 
                       click={ props.onCellClick }

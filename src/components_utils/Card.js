@@ -36,7 +36,7 @@ const Card = (props) => {
 		    <h6 className="card-subtitle text-muted" style={{ padding: 0, margin: 0}}>{props.subtitle}</h6>
 		  </div>
 
-		  <img className="card-img-top" src={props.image} alt="Card image cap" width="100%"/>
+		  <img className="" src={props.image} alt={props.name} width="100%"/>
 		  <div className="card-block" style={{padding: "0 10px", margin:"20px auto"}}>
 		    {(props.nextSouthBound) ? /*if props.nextSouthBound, show below*/
 			    <h4 className="card-title">

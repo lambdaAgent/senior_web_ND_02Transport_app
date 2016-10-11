@@ -50,10 +50,13 @@ class StationDetail extends React.Component {
 		]
 
 		const Southbound_unix = convertScheduleToUnix(_station.Southbound);
-		const findNextSB = findNextFromUnixSchedule(Southbound_unix);
-		const Northbound_unix = convertScheduleToUnix(_station.Northbound);
-		const findNextNB = findNextFromUnixSchedule(Northbound_unix);
-		return(
+        const [SBResult, SBUnix, SBAmPm] = findNextFromUnixSchedule(_station.Southbound, Southbound_unix);
+        const findNextSB = SBResult + " " + SBAmPm;
+
+        const Northbound_unix = convertScheduleToUnix(_station.Northbound);
+        const [NBResult,NBunix,NBAmPm] = findNextFromUnixSchedule(_station.Northbound, Northbound_unix);
+        const findNextNB = NBResult + " " + NBAmPm;
+       return(
 	    	<div className="container">
 	    		<Navbar />
 		    	{(isBooking) ? 
@@ -79,7 +82,7 @@ class StationDetail extends React.Component {
 	    				: ""
 	    			}
 		    		{/*mobile view only*/}
-			    	<div className="" >
+			    	<div className="col-sm-8" >
 			    		<Card 
 			    			title={_station.name}
 			    			zone={_station.zone}
