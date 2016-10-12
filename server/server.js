@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, '../src')));
 // view engine setup
 app.set('views', path.join(__dirname, '../build'));
 app.set('view engine', 'hbs');
-
+var port = process.env.PORT || 8888;
 
 
 app.use(function (req, res, next) {
@@ -50,8 +50,8 @@ app.get("/build", (req, res, next) => {
 	res.send(html)
 });
 
-app.listen(8888, function(){
-	console.log("connected to port 8888")
+app.listen(port, function(){
+	console.log("connected to port " + port)
 })
 
 module.exports = app;
