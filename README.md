@@ -1,4 +1,9 @@
 # Project02 - Transport-Planner App
+1. This app will show schedule for caltrain's train
+2. It will check the arrival-time of the next train 
+3. This app utilize serviceWorker and indexedDB for offline capability
+<a href="https://transportapp-udacity.herokuapp.com">See in action</a>
+
 
 ### RUN:
 1. clone
