@@ -2,6 +2,9 @@
   "name": "02_transport_app",
   "version": "0.1.0",
   "private": true,
+  "devDependencies": {
+    "react-scripts": "0.6.0"
+  },
   "dependencies": {
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
