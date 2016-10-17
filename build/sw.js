@@ -14,10 +14,10 @@ this.addEventListener("install", event => {
 				"/bootstrap/fonts/glyphicons-halflings-regular.ttf",
 				"/bootstrap/fonts/glyphicons-halflings-regular.woff",
 				"/bootstrap/fonts/glyphicons-halflings-regular.woff2",				
-				"/static/css/main.f9541ae4.css",
-				"/static/css/main.f9541ae4.css.map",
-				"/static/js/main.f6459f8a.js",
-				"/static/js/main.f6459f8a.js.map",
+				"/static/css/main.9ee545ee.css",
+				"/static/css/main.9ee545ee.css.map",
+				"/static/js/main.c67bc54e.js",
+				"/static/js/main.c67bc54e.js.map",
 				
 				// ---- images -------
 				"/images/Caltrain_Zone_Map.png",
