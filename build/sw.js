@@ -16,8 +16,8 @@ this.addEventListener("install", event => {
 				"/bootstrap/fonts/glyphicons-halflings-regular.woff2",				
 				"/static/css/main.9ee545ee.css",
 				"/static/css/main.9ee545ee.css.map",
-				"/static/js/main.c67bc54e.js",
-				"/static/js/main.c67bc54e.js.map",
+				"/static/js/main.9c949491.js",
+				"/static/js/main.9c949491.js.map",
 				
 				// ---- images -------
 				"/images/Caltrain_Zone_Map.png",

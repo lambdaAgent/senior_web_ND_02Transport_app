@@ -9,8 +9,8 @@ db.version(1).stores({
 const FetchAPI = {
   _fetchInterval: undefined,
   fetchStationsFromServer(React){
-        // fetch("https://transportapp-udacity.herokuapp.com/getAllStationsFromServer")
-        fetch("http://localhost:8888/getAllStationsFromServer")
+        fetch("https://transportapp-udacity.herokuapp.com/getAllStationsFromServer")
+        // fetch("http://localhost:8888/getAllStationsFromServer")
           .then(res => res.json())
           .then(stations => {
             //put the data to indexedDB          
